@@ -1,0 +1,18 @@
+sudo apt update
+sudo apt install mtd-tools
+
+
+//NAND 128MiB 3,3V 8-bit
+sudo modprobe nandsim first_id_byte=0xec second_id_byte=0xf1 third_id_byte=0x00 fourth_id_byte=0x15
+	OR
+sudo modprobe nandsim first_id_byte=0xec second_id_byte=0xf1 third_id_byte=0x51 fourth_id_byte=0x95
+
+sudo flash_erase /dev/mtd0 0 0
+
+sudo nandwrite -a -p /dev/mtd0 /media/xubuntu/64GB/Dima/_router/Linksys-EA6350v2/original-cfe.bin
+	OR
+sudo flashcp /media/xubuntu/64GB/Dima/_router/Linksys-EA6350v2/original-cfe.bin /dev/mtd0
+
+sudo nanddump /dev/mtd0 -f nand-dump.bin
+sudo nanddump /dev/mtd0 --oob -f nand-dump_with_oob.bin
+sudo rmmod nandsim
